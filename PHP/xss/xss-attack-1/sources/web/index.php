@@ -78,8 +78,7 @@ if (!$result) echo mysqli_error($mysqli);
 	
 	
 	
-	<section class="section">
-<div class="container">
+
 
 <?php 
 if($_SESSION['admin'] == TRUE)
@@ -96,9 +95,7 @@ if($_SESSION['admin'] == TRUE)
  Hello! My name is Michael and this is my personal guestbook.</h1>
 <h2 class="subtitle"> You can write me a message and I'll try to read it.</h2>
  
-    </div>
 
-    </section>
  
  <?php
  
