@@ -88,7 +88,7 @@ In **/usr/share/noVNC/app/ui.js**  find ``` UI.initSetting('resize', 'off');``` 
 ## 4. Start VNC and NoVNC
 ```
 vncserver
-#Enter password 123456 or some other
+#Enter password 123456 or some other. Depends on config in step 5
 ```
 
 ```
@@ -100,9 +100,29 @@ Append to **/home/admin/.vnc/xtartup** next line - ```startlxde &``` to start Lx
 
 
 
-## 5. Login
+## 5. Nginx config 
 
-Login to http://IP:6080/ and enter VNC password.
+```
+echo "
+server {
+    listen 80;
+    location / {
+          proxy_http_version 1.1;
+          proxy_pass http://127.0.0.1:6080/?autoconnect=true&password=123456;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+          proxy_read_timeout 61s;
+          proxy_buffering off;
+    }
+
+}
+
+" | sudo tee /etc/nginx/sites-enabled/default
+```
+
+## 6. Login
+
+Login to http://IP/ and enter VNC password.
 
 
 ![alt text](novnc.png)
