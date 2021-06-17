@@ -1,7 +1,7 @@
 
 # User VM
 
-How-to create a custom environment and providing access to it via noVNC. The minimum hard drive requirement is 7 gigabytes.
+How-to create a custom user environment and providing access to it via noVNC using Debian 10. The minimum hard drive requirement is 7 DB.
 
 
 ## 1. Install core packages
@@ -172,7 +172,7 @@ There isn't a UI checkbox for this, so...
 Open **file manager** goto **Edit->Preferences->General->Do not ask option on executable launch**
 
 
-### Clear all your actions\
+### Clear all your actions
 ```bash
 cd ~
 history -c
