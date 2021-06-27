@@ -64,7 +64,7 @@ Disk space: 4 GB
     ```SQL
     CREATE TABLE IF NOT EXISTS `users` (  `id` INT NOT NULL AUTO_INCREMENT,  `login` VARCHAR(45) NULL,  `password` VARCHAR(45) NULL,  PRIMARY KEY (`id`))ENGINE = InnoDB;
     CREATE TABLE IF NOT EXISTS `posts` (  `id` INT NOT NULL AUTO_INCREMENT, `header` VARCHAR(45), `content` MEDIUMTEXT NULL,  `user_id` INT NULL,  PRIMARY KEY (`id`))ENGINE = InnoDB;
-    CREATE TABLE IF NOT EXISTS `comments` (  `id` INT NOT NULL AUTO_INCREMENT,  `post_id` INT NULL,  `content` MEDIUMTEXT NULL,  PRIMARY KEY (`id`))ENGINE = InnoDB;
+    CREATE TABLE IF NOT EXISTS `comments` (  `id` INT NOT NULL AUTO_INCREMENT,  `post_id` INT NULL,  `content` MEDIUMTEXT NULL,`user_id` INT NULL,  PRIMARY KEY (`id`))ENGINE = InnoDB;
     CREATE TABLE IF NOT EXISTS `likes` (`post_id` INT NULL,  `user_id` INT NULL,   PRIMARY KEY (`post_id`, `user_id`))ENGINE = InnoDB;
     
     

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sudo rm -rf /var/www/html/*
+sudo cp -r /home/dev/source/* /var/www/html/
+echo "DONE!"
+

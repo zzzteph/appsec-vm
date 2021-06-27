@@ -1,0 +1,94 @@
+#!/bin/bash
+tests_failed () {
+        echo "Seems you broke the system.";
+        echo "Can't test valid functions";
+        exit;
+}
+echo "Begin hacking...";
+echo "Systems functional."
+
+sleep 1;
+process1=$(ps aux| grep -v grep | grep curl | wc -l);
+process2=$(ps aux| grep -v grep | grep xsser | wc -l);
+process=$((process1+process2))
+if [ "$process" -ne 0 ]; then
+        echo "Another bot is running"
+        echo "Please wait 20 seconds"
+        for i in 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 9
+        do
+                sleep 1
+                echo "$i seconds"
+        done
+
+        echo "Kill everything"
+        kill $(ps aux| grep -v grep | grep xsser | awk '{print $2}')  > /dev/null 2>&1
+        kill $(ps aux| grep -v grep | grep curl | awk '{print $2}')  > /dev/null 2>&1
+
+fi
+
+sleep 1;
+echo "Test functionality...";
+sleep 1;
+rand=$(od -A n -t d -N 2 /dev/urandom |tr -d ' ')
+tests=$(((rand % 10) + 5 ))
+echo "Test cases : $tests";
+sleep 1;
+valid_codes=0;
+for i in $(seq 1 $tests)
+do
+        string=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 20 | head -n 1)
+        message=$(curl --silent --data "comment=$string" "http://127.0.0.1/" -iL | grep "$string" |wc -l);
+        status="failed"
+        if [ "$message" -eq "1" ]; then
+                status="success"
+        fi
+
+        echo "Case: $i - $status"
+        valid_codes=$((valid_codes+message))
+        sleep 1
+done
+
+
+
+if [ "$valid_codes" -lt "$tests" ]; then
+        tests_failed;
+fi
+
+
+echo "All works fine... begin hacking"
+
+vuln=`(cd /root/xsser;python3 /root/xsser/xsser -u "http://127.0.0.1" -p "comment=XSS"| grep "XSS FOUND!"|wc -l)`
+
+
+
+
+rand=$(od -A n -t d -N 2 /dev/urandom |tr -d ' ')
+tests=$(((rand % 10) + 5 ))
+sleep 1;
+valid_codes=0;
+for i in $(seq 1 $tests)
+do
+        string=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 20 | head -n 1)
+        message=$(curl --silent --data "comment=$string" "http://127.0.0.1/" -iL | grep "$string" |wc -l);
+        valid_codes=$((valid_codes+message))
+        echo -n "*";
+        sleep 1
+done
+
+if [ "$valid_codes" -lt "$tests" ]; then
+        tests_failed;
+fi
+
+
+
+
+if [ "$vuln" -eq "0" ]; then
+
+
+        echo "XSS was correctly removed, your flag: XSS_VIPER";
+        exit;
+fi
+
+
+echo "WEB APP was HACKED....";
+
