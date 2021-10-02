@@ -19,7 +19,7 @@ Put all files in **source** to folder **/var/www/html/**
 
 ```bash
 sudo apt-get update --allow-releaseinfo-change
-sudo apt-get install nginx mariadb-server php-fpm php-mysql
+sudo apt-get install nginx mariadb-server php-fpm php-mysql sudo unzip
 
 sudo chown www-data:www-data -R /var/www/html/
 sudo chmod 755 -R /var/www/html/*
