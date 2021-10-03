@@ -1,6 +1,0 @@
-#!/bin/bash
-
-rm -rf /home/dev/source/*
-cp -r /root/source/* /home/dev/source/
-chmod 777 -R /home/dev/source/
-

@@ -1,0 +1,27 @@
+    CREATE TABLE IF NOT EXISTS users (  `id` INT NOT NULL AUTO_INCREMENT,  `login` VARCHAR(45) NULL,  `password` VARCHAR(45) NULL,  PRIMARY KEY (`id`))ENGINE = InnoDB;
+    CREATE TABLE IF NOT EXISTS posts (  `id` INT NOT NULL AUTO_INCREMENT, `header` VARCHAR(45), `content` MEDIUMTEXT NULL,  `user_id` INT NULL,  PRIMARY KEY (`id`))ENGINE = InnoDB;
+    CREATE TABLE IF NOT EXISTS comments (  `id` INT NOT NULL AUTO_INCREMENT,  `post_id` INT NULL,  `content` MEDIUMTEXT NULL,`user_id` INT NULL,  PRIMARY KEY (`id`))ENGINE = InnoDB;
+    CREATE TABLE IF NOT EXISTS likes (`post_id` INT NULL,  `user_id` INT NULL,   PRIMARY KEY (`post_id`, `user_id`))ENGINE = InnoDB;
+
+    insert into `users`(`login`,`password`) values ('bob','5f4dcc3b5aa765d61d8327deb882cf99');
+    insert into `users`(`login`,`password`) values ('liam','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('noah','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('oliver','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('elijah','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('william','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('james','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('benjamin','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('lucas','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('henry','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('alexander','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('olivia','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('harper','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('evelyn','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('mia','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('isabella','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('amelia','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('sophia','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('charlotte','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('emma','30bdad3b2f064123f40da204e6172db6');
+    insert into `users`(`login`,`password`) values ('ava','30bdad3b2f064123f40da204e6172db6');
+    insert into `posts`(`header`,`content`,`user_id`) values ('Martians invade earth','Mea aperiri inciderint et, sea equidem fabulas pericula ne. An alii eruditi incorrupte duo, his te erat debet. Verterem constituto consectetuer at per. Summo accusam ne sit, eu aliquip alienum apeirian duo. Hinc invidunt consulatu pro ad. Duo utamur indoctum sententiae ne, an alii nobis gloriatur vel. Per ei veri appetere, porro accusamus vis cu.',1);
