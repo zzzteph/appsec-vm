@@ -19,7 +19,7 @@ After we successfully helped Bob and Alice, the portal administrator contacted u
 ```bash
 
 sudo apt-get update --allow-releaseinfo-change
-sudo apt-get install -y curl default-jdk htop libgconf-2-4 libxi6 mariadb-server maven mc nginx php php-fpm php-mysql python python2.7 unzip wget xvfb
+sudo apt-get install -y curl default-jdk htop libgconf-2-4 libxi6 mariadb-server maven mc nginx php php-fpm php-mysql python python2.7 unzip wget xvfb sudo 
 ```
 
 
