@@ -36,11 +36,7 @@ class Messages extends CI_Controller {
 			redirect('/');
 			return;
 		}
-		if($id==1 && $this->session->userdata('id')!=2)
-		{
-			redirect('/');
-			return;
-		}
+	
 		
 		
 		if($this->input->post('info')!=NULL)
