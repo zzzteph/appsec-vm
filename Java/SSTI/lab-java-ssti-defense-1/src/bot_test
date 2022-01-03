@@ -1,0 +1,70 @@
+#!/bin/bash
+tests_failed () {
+        echo "Seems you broke the system.";
+        echo "Can't test valid functions";
+        exit;
+}
+echo "Begin hacking...";
+process=$(ps aux| grep -v grep | grep "bot_test" | wc -l);
+if [ "$process" -gt "3" ]; then
+        echo "Another bot is running"
+        echo "Please wait 20 seconds"
+        for i in 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 9
+        do
+                sleep 1
+                echo "$i seconds"
+        done
+        exit;
+
+fi
+
+service ssti restart;
+echo "Waiting for hacker-bot ....0"
+for i in {1..20}
+do
+        sleep 1;
+        echo $(($i*5))%...;
+done
+echo "Systems functional.";
+
+echo "System checking....";
+vuln=`(curl -d "name=123&email=123&phone=123&service=Please+chooses&productType=Residential&valueFrom=20000&valueTo=800*00&message=123123" --silent -i -X POST http://127.0.0.1/| grep 123123| wc -l)`
+
+if [ "$vuln" -ne "1" ]; then
+
+	tests_failed;
+fi
+echo "All works....";
+echo "Start hacking";
+
+
+
+
+vuln=`(timeout 60 python2.7 /root/tplmap/tplmap.py --url http://127.0.0.1/ --data "name=123&email=123&phone=123&service=Please+chooses&productType=Residential&valueFrom=20000&valueTo=80000&message=123123" --os-cmd=whoami | grep "\[!\]\[checks\]"| wc -l)`
+vuln2=`(timeout 60 python2.7 /root/tplmap/tplmap.py --url http://127.0.0.1/ --data "name=123&email=123&phone=123&service=Please+chooses&productType=Residential&valueFrom=20000&valueTo=80000&message=123123" --os-cmd=whoami | grep "dev"| wc -l)`
+
+
+
+
+
+service ssti restart;
+echo -n "Cleaning..."
+for i in {1..20}
+do
+        sleep 1;
+        echo -n "*";
+done
+echo "Done";
+
+
+
+if  [ "$vuln" -eq "1" ] && [ "$vuln2" -ne "1" ]; then
+
+
+        echo "SSTI was fixed correctly. Your flag is : Freemaker_fixer";
+        exit;
+fi
+
+
+echo "WEB APP was HACKED....or you broke functionality";
+

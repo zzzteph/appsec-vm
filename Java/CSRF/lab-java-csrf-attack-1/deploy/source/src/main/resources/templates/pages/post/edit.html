@@ -1,0 +1,41 @@
+<html lang="en" layout:decorate="~{layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<section layout:fragment="content">
+
+    <div class="row">
+        <div class="col-12">
+            <h3 th:text="${post.id == null ? 'Create a new post' : 'Edit post №' + post.id}"></h3>
+            <form th:action="@{/post/update}" method="post">
+                <input type="hidden" name="id" th:value="${post.id}">
+                <div class="form-group">
+                    <label for="input-title">Title:</label>
+                    <input type="text" name="title" th:value="${post.title}" class="form-control" id="input-title">
+                    <small class="tex-muted text-danger" th:if="${param.error}">
+                        Must be at least 20 symbols.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="input-text">Text:</label>
+                    <textarea type="text" name="text" th:text="${post.text}" class="form-control" id="input-text"
+                              rows="10"
+                    ></textarea>
+                    <small class="tex-muted text-danger" th:if="${param.error}">
+                        Must be at least 100 symbols.
+                    </small>
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-outline-primary" type="submit"
+                            th:text="${post.id == null ? 'Create' : 'Update'}"
+                    ></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

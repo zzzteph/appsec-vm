@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/style.css" th:href="@{/static/css/style.css}">
+</head>
+
+<body>
+<!--Header-->
+<header class="header">
+    <div class="container">
+        <div class="header__inner">
+            <div class="header__logo">
+                <img src="/static/images/logo.png" th:src="@{/static/images/logo.png}">
+            </div>
+            <div class="nav">
+                <a class="nav__link" th:href="@{/}">Webinar</a>
+                <a class="nav__link" th:href="@{/reviews}">Reviews</a>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+<!--Intro-->
+<div class="intro">
+    <div class="container">
+        <div class="intro__inner">
+            <div class="intro__inner-info">
+                <p class="data">Bad value, please try again</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

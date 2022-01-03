@@ -1,0 +1,30 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!-- /* @thymesVar id="template_path" type="java.lang.String" */ -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My awesome blog!</title>
+    <link rel="stylesheet" type="text/css" th:href="${template_path} + '/bulma/bulma.css'"/>
+    <link rel="stylesheet" type="text/css" th:href="${template_path} + '/main.css'">
+</head>
+<body>
+
+<template th:replace="fragments/header :: header"></template>
+
+<div id="page">
+    <div class="container">
+
+        <template layout:fragment="content">
+            <p>Page content goes here</p>
+        </template>
+
+    </div>
+</div>
+
+</body>
+</html>

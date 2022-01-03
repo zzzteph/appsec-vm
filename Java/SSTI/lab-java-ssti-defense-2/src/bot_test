@@ -1,0 +1,94 @@
+#!/bin/bash
+tests_failed () {
+        echo "Seems you broke the system.";
+        echo "Can't test valid functions";
+        exit;
+}
+echo "Begin hacking...";
+process=$(ps aux| grep -v grep | grep "bot_test" | wc -l);
+if [ "$process" -gt "3" ]; then
+        echo "Another bot is running"
+        echo "Please wait 20 seconds"
+        for i in 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 9
+        do
+                sleep 1
+                echo "$i seconds"
+        done
+        exit;
+
+fi
+
+systemctl restart ssti
+echo "Waiting for hacker-bot ....0"
+for i in {1..20}
+do
+        sleep 1;
+        echo $(($i*5))%...;
+done
+echo "Systems functional.";
+
+
+
+echo "System checking....";
+vuln=`(curl -d "name=asdasdas&message=dasdasd" --silent -i -X POST http://127.0.0.1/| grep 123123| wc -l)`
+
+
+echo "Test functionality...";
+sleep 1;
+rand=$(od -A n -t d -N 2 /dev/urandom |tr -d ' ')
+tests=$(((rand % 10) + 5 ))
+echo "Test cases : $tests";
+sleep 1;
+valid_codes=0;
+for i in $(seq 1 $tests)
+do
+        string=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 20 | head -n 1)
+        message=$(curl --silent --data "name=$string&message=$string" "http://127.0.0.1/reviews" -iL | grep "$string" |wc -l);
+        status="failed"
+        if [ "$message" -eq "2" ]; then
+                status="success"
+        fi
+
+        echo "Case: $i - $status"
+        valid_codes=$((valid_codes+message))
+        sleep 1
+done
+
+
+if [ "$valid_codes" -lt "$tests" ]; then
+        tests_failed;
+fi
+echo "All works fine... begin hacking"
+
+echo "Stage 1";
+vuln=$(curl --silent --data 'name=${17*72}&message=string' "http://127.0.0.1/reviews" -iL | grep "1224"| wc -l);
+sleep 1;
+echo "Stage 2";
+vuln2=$(curl --silent --data 'name=test&message=${13*62}' "http://127.0.0.1/reviews" -iL | grep "806"| wc -l);
+
+
+
+
+
+
+systemctl restart ssti
+echo -n "Cleaning..."
+for i in {1..20}
+do
+        sleep 1;
+        echo -n "*";
+done
+echo "Done";
+
+
+
+if  [ "$vuln" -eq "0" ] && [ "$vuln2" -eq "0" ]; then
+
+
+        echo "SSTI was fixed correctly. Your flag is : TLEF_SPEL_fixer";
+        exit;
+fi
+
+
+echo "WEB APP was HACKED....or you broke functionality";
+

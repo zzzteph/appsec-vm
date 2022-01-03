@@ -1,0 +1,31 @@
+<html lang="en" layout:decorate="~{layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<section layout:fragment="content">
+
+    <p th:if="${posts.size() == 0}">
+        There are no posts yet...
+    </p>
+    <div class="mb-4" th:if="${is_crud_allowed == true}">
+        <a href="/post/create" class="btn btn-outline-secondary">
+            <i data-feather="plus"></i>
+            Create a new post
+        </a>
+    </div>
+    <div class="row">
+        <div class="col-12" th:each="post: ${posts}">
+            <template th:replace="pages/post/fragment/post :: post(
+                                  post=${post},
+                                  is_crud_allowed=${is_crud_allowed},
+                                  user_opinion=null,
+                                  is_full_view=false)"
+            ></template>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

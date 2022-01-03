@@ -1,0 +1,8 @@
+#!/bin/bash
+
+mvn -f /home/dev/source/pom.xml clean
+mvn -f /home/dev/source/pom.xml compile
+mvn -f /home/dev/source/pom.xml package
+chmod 777 -R /home/dev/source/
+systemctl restart ssti
+sleep 10;

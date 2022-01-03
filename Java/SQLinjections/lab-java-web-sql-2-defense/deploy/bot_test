@@ -1,0 +1,152 @@
+#!/bin/bash
+
+
+init()
+{
+mysql -e "truncate shop.promo";
+mysql -e "INSERT INTO shop.promo VALUES (1,'ef4447010c5dc6f',10),(2,'8db57b05485033a',10),(3,'54c0bb655365e46',10),(4,'59e3feb1ca48dce',20),(5,'f16cadfc028ed87',10),(6,'1d703c45c8b6697',15),(7,'422dab14927535f',10),(8,'a7cbf1f7400b3e5',5),(9,'077a8c377104c06',10),(10,'39dfd83f45adff7',100);";
+systemctl restart sql
+sleep 20;
+}
+
+tests_failed () {
+
+mysql -e "truncate shop.promo"
+mysql -e "INSERT INTO shop.promo VALUES (1,'ef4447010c5dc6f',10),(2,'8db57b05485033a',10),(3,'54c0bb655365e46',10),(4,'59e3feb1ca48dce',20),(5,'f16cadfc028ed87',10),(6,'1d703c45c8b6697',15),(7,'422dab14927535f',10),(8,'a7cbf1f7400b3e5',5),(9,'077a8c377104c06',10),(10,'39dfd83f45adff7',100);";
+echo "Seems you broke the system.";
+echo "Can't test valid functions";
+exit;
+
+
+
+
+}
+
+
+init;
+
+
+process1=$(ps aux| grep -v grep | grep curl | wc -l);
+process2=$(ps aux| grep -v grep | grep sqlmap | wc -l);
+
+process=$((process1+process2))
+
+
+if [ "$process" -ne "0" ]; then
+
+        echo "Another bot is running"
+        echo "Please wait 20 seconds"
+
+        for i in 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 9
+        do
+                sleep 1
+                echo "$i seconds"
+        done
+
+        echo "Kill everything"
+        kill $(ps aux| grep -v grep | grep sqlmap | awk '{print $2}')  > /dev/null 2>&1
+        kill $(ps aux| grep -v grep | grep curl | awk '{print $2}')  > /dev/null 2>&1
+
+fi
+
+
+
+echo "Begin hacking...";
+systemctl restart sql
+sleep 20;
+echo "Test functionality...";
+sleep 1;
+rand=$(od -A n -t d -N 2 /dev/urandom |tr -d ' ')
+tests=$(((rand % 20)+10))
+echo "Test cases : $tests";
+sleep 1;
+echo "Test...1"
+mysql -e "truncate shop.promo";
+valid_codes=0;
+for i in $(seq 1 $tests)
+do
+
+        code=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 11 | head -n 1)
+        mysql -e "INSERT INTO shop.promo VALUES ($i,'$code',10)";
+        promo=$(curl --silent --data "promocode=$code" "http://127.0.0.1/checkpromo" -i | grep "success" |wc -l);
+        valid_codes=$((valid_codes+promo))
+
+done
+
+
+
+if [ "$valid_codes" -ne "$tests" ]; then
+        tests_failed;
+fi
+
+
+
+
+sleep 1;
+echo "Test...2"
+mysql -e "truncate shop.promo";
+
+
+valid_checkout=0;
+for i in $(seq 1 $tests)
+do
+        code=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 11 | head -n 1)
+        mysql -e "INSERT INTO shop.promo VALUES ($i,'$code',10)";
+        promo=$(curl --silent --data "promocode=$code" "http://127.0.0.1/checkout" -i | grep "success" |wc -l);
+        valid_checkout=$((valid_checkout+promo))
+
+done
+
+vuln=$(sqlmap --url http://127.0.0.1/checkpromo --data "promocode=1" --level 3 --risk 3 --batch --random-agent --flush-session --dbms=mysql --technique=BEUSQ| grep "sqlmap identified the following injection"|wc -l)
+
+
+
+
+if [ "$valid_checkout" -ne "$tests" ]; then
+        tests_failed;
+fi
+
+sleep 1;
+echo "Test...3"
+
+bad=0;
+for i in $(seq 1 $tests)
+do
+        code=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
+        promo=$(curl --silent --data "promocode=$code" "http://127.0.0.1/checkpromo" -i | grep "no promocode" |wc -l);
+        bad=$((bad+promo))
+
+done
+
+
+
+if [ "$bad" -ne "$tests" ]; then
+        tests_failed;
+fi
+
+
+
+
+
+
+echo "All works fine... begin hacking"
+
+vuln1=$(sqlmap --url http://127.0.0.1/checkpromo --data "promocode=1" --level 3 --risk 3 --batch --random-agent --flush-session --dbms=mysql --technique=BEUSQ| grep "sqlmap identified the following injection"|wc -l)
+vuln2=$(sqlmap --url http://127.0.0.1/checkout --data "promocode=1" --level 3 --risk 3 --batch --random-agent --flush-session --dbms=mysql --technique=BEUSQ| grep "sqlmap identified the following injection"|wc -l)
+
+vuln=$((vuln1+vuln2))
+
+if [ "$vuln" -eq "0" ]; then
+   echo "You are awesome!";
+   echo "Your flag is: JAVA_SQLINJECTION_SHOP_HELPER";
+   exit;
+fi
+
+
+
+echo "WEB APP was HACKED....";
+
+
+init;
+
+

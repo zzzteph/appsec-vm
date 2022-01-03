@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/style.css" th:href="@{/static/css/style.css}">
+</head>
+
+<body>
+    <!--Header-->
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <div class="header__logo">
+                    <img src="/static/images/logo.png" th:src="@{/static/images/logo.png}">
+                </div>
+                <p th:if="${name != null}" ? th:text="'Sent to '+${name}" class="nav__link"> </p>
+                <div class="nav">
+                    <a class="nav__link" href="#About">About</a>
+                    <a class="nav__link" href="#">Webinar</a>
+                    <a class="nav__link" th:href="@{/reviews}">Reviews</a>
+                    <a class="nav__link" href="#Contact">Contact</a>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!--Intro-->
+    <div class="intro">
+        <div class="container">
+            <div class="intro__inner">
+                <div class="intro__inner-info">
+                    <p class="data">Fridays in June at 20:00 Moscow</p>
+                    <p class="presenters">Presenters <span class="name">New School</span></p>
+                    <p class="info-title">Webinar of the School of the Future</p>
+                    <p class="info-subtitle">&nbsp;&nbsp;Lorem ipsum dolor sit amet consectetur
+                        adipisicing elit. Sapiente, recusandae illo labore fugiat blanditiis modi
+                        praesentium mollitia neque adipisci facere, architecto optio debitis
+                        quibusdam impedit sequi nobis repudiandae provident placeat libero beatae
+                        nihil quod dolores. Nisi, perferendis culpa amet mollitia minus magni. Vero
+                        optio, quasi ipsam cumque iure tenetur aliquid vitae dignissimos officiis
+                        excepturi quis omnis sed! Facilis molestiae aperiam corporis eos reprehenderit
+                        perspiciatis, autem, cumque et porro voluptatem dicta eaque saepe illo velit
+                        ea ducimus voluptates? Enim, <a name="About">aperiam iste.</a> </p>
+                </div>
+                <div class="intro__inner-sign">
+                    <p>The lecture will start soon.<br> Do register! </p>
+                    <div class="wrapper">
+                        <input type="checkbox" id="modal">
+                        <label class="btn" for="modal">Sign up</label>
+                        <form action="/" class="popup" method="post">
+                            <span> Registration</span>
+                            <label> <input class="name" type="text" placeholder="Name" required name="name"></label>
+                            <label> <input class="email" type="email" placeholder="E-mail" name="email" required></label>
+                            <input class="submit" type="submit" value="OK">
+                            <p class="comment">*After successful registration, we will send you an invitation to the
+                                specified
+                                e-mail.</p>
+                            <label class="close" for="modal">&#10008;</label>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Company-->
+    <div class="comp">
+        <div class="container">
+            <div class="comp-intro">
+                <p id="comp-intro-title">WhiteFox is</p>
+                <p class="comp-intro-subtitle">&#160;&#160;&#160;Lorem ipsum dolor sit, amet consectetur adipisicing
+                    elit. Placeat, modi.
+                    Labore corporis totam sunt, dicta quasi culpa recusandae mollitia unde non debitis, rerum est ut
+                    corrupti cumque suscipit harum, delectus vero! Quam itaque aut similique facere quos voluptas unde
+                    molestias repudiandae placeat nisi.<br> &#160;&#160;&#160;Consequuntur dolores tempore laborum
+                    beatae reprehenderit
+                    dolorem. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Alias itaque quo delectus cupiditate!
+                     Amet voluptate culpa non adipisci, ut blanditiis libero. Ducimus rem nostrum distinctio, consequuntur
+                      perspiciatis porro voluptates molestiae repellendus assumenda explicabo modi, illo placeat eius maxime
+                       voluptatem praesentium!</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!--Contacts-->
+    <div class="contact">
+        <div class="container">
+            <div class="contact-intro">
+                <p id="contact-intro-title">Contact with us</p>
+                <p class="contact-intro-subtitle"><a name="Contact">The Customer</a> Support Center operates round the clock.<br>
+                    Telephone service and support: <b>8-800-700-06**, 0611 (mobile)</b>.<br> Call from international
+                    roaming:<b> +7 (495) 797-27-**.</b><br>
+                    E-mail: <b>whitefox@gmail.com </b></p>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--Footer-->
+    <footer>
+        <p>
+            © 2020, WhiteFox.<br> When copying the material, a link to the source is required. All Rights Reserved.
+        </p>
+    </footer>
+</body>
+
+</html>

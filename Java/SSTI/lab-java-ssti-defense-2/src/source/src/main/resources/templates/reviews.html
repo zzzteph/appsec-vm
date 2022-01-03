@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/static/css/review_style.css}">
+    <title>WhiteFox</title>
+</head>
+
+<body>
+    <!--Header-->
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <div class="header__logo">
+                    <img th:src="@{/static/images/logo.png}">
+                </div>
+                <div class="nav">
+                    <a class="nav__link" th:href="@{/}">Home</a>
+                    <a class="nav__link" th:href="@{/}">Webinar</a>
+                    <a class="nav__link" th:href="@{/reviews}">Reviews</a>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!--Intro-->
+    <div class="intro">
+        <div class="container">
+            <div class="intro__inner">
+                <form action="/reviews" method="post" class="popup">
+                    <span> Customer Reviews</span>
+                    <label> <input class="name" type="text" placeholder="Your Name" name="name" required></label>
+                    <label> <textarea rows="1" placeholder="Your review..." id="textMessage" name="message"></textarea></label>
+                    <input class="submit" type="submit" value="OK">
+                </form>
+
+                <div class="comment">
+
+                    <div class="comment-in">
+                        <div class="comment-in__title" >Alice</div>
+                        <div class="comment-in__text" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae officia saepe iure possimus, animi aspernatur delectus doloremque ea sed quis nihil consequatur nobis optio illum maxime. Nostrum laborum dicta libero!</div>
+                    </div>
+
+                    <div class="comment-in">
+                        <div class="comment-in__title" >Jim Black</div>
+                        <div class="comment-in__text" >Lorem inus aberto! Actus minoro leonte.Molestiae officia saepe iure possimus.</div>
+                    </div>
+
+                    <div class="comment-in" th:each="blog : ${blogs}">
+                        <div class="comment-in__title" th:text="__${blog.name}__"></div>
+                        <div class="comment-in__text" th:text="__${blog.message}__">
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+
+    <!--Footer-->
+    <footer>
+        <p>
+            © 2020, WhiteFox.<br> When copying the material, a link to the source is required. All Rights Reserved.
+        </p>
+    </footer>
+</body>
+
+</html>

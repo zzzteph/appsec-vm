@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>YAOFR</title>
+    <link rel="stylesheet" href="/css/bulma.min.css">
+</head>
+
+<body>
+
+<section class="articles">
+    <div class="container">
+
+        <div class="card">
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-content">
+                        <h1 class="title"> YAOFR - yet another online file manager v 1.0 </h1>
+                    </div>
+                </div>
+
+                <div class="content">
+                    <div class="table-container">
+                        <table class="table">
+                            <tr th:each="fentry: ${entries}">
+                                <td/>
+                                <a  th:href="${fentry.link}" th:text="${fentry.name}" th:if="${fentry.isFolder}"/>
+                                <span  th:text="${fentry.name}" th:if="${!fentry.isFolder}"/>
+                                <td/>
+                                <a th:href="${fentry.link}"  th:if="${!fentry.isFolder}">view</a>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</section>
+
+<br />
+</body>
+
+</html>

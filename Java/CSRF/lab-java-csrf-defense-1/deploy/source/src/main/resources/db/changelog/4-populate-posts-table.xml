@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="d.pechkovskiy" id="1586775785">
+        <sql>
+            INSERT INTO post (user_id, date_created, date_updated, title, text) VALUES
+            (1, '2010-01-01 11:00:00', '2010-01-01 11:00:00', 'About wave–particle duality', 'Wave–particle duality is the concept in quantum mechanics that every particle or quantum entity may be described as either a particle or a wave. It expresses the inability of the classical concepts "particle" or "wave" to fully describe the behaviour of quantum-scale objects. Through the work of Max Planck, Albert Einstein, Louis de Broglie, Arthur Compton, Niels Bohr, and many others, current scientific theory holds that all particles exhibit a wave nature and vice versa. This phenomenon has been verified not only for elementary particles, but also for compound particles like atoms and even molecules. For macroscopic particles, because of their extremely short wavelengths, wave properties usually cannot be detected.');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

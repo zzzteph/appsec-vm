@@ -1,0 +1,341 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    font-family: 'Abel', sans-serif;
+    font-size: 30px;
+
+    background: #e8dfdf;
+
+
+}
+
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+}
+
+
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0px auto;
+
+}
+
+/* Header */
+.header {
+    width: 100%;
+    height: 100%;
+    max-height: 100px;
+
+    position: fixed;
+    z-index: 1000;
+
+
+    background-color: #e8dfdf;
+    opacity: .95;
+}
+
+.header__inner{
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.header__logo img {
+    width: 120px;
+    height: 100%;
+
+}
+
+/*Nav*/
+.nav {
+    font-size: 20px;
+    text-transform: uppercase;
+    font-family: 'Caveat', cursive;
+
+}
+
+.nav__link {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 25px;
+    position:relative;
+
+    color: #000000;
+    text-decoration: none;
+
+    transition: color .1s linear;
+}
+
+.nav__link:after{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 3px;
+    
+
+    background-color: #fa8907;
+    opacity: 0;
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+
+    transition: opacity .1s linear;
+}
+
+.nav__link:hover {
+    color: #fa8907;
+}
+
+.nav__link:hover:after, .nav__link.active:after {
+    opacity: 1;
+}
+
+.nav__link.active{
+    color: #fa8907;
+}
+
+/* Intro */
+.intro {
+    margin-top: 100px;
+}
+
+.intro__inner {
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row no-wrap;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.intro__inner-info {
+    text-align: center;
+    padding: 50px;
+    width: 500px;
+}
+
+.data {
+    margin-bottom: 20px;
+
+    font-size: 30px;
+    text-align: left;
+
+    font-family: 'Caveat', cursive;
+
+}
+
+.presenters {
+    font-size: 20px;
+    text-align: left;
+}
+
+.name {
+    font-style: italic;
+}
+
+.info-title {
+    font-family: 'Caveat', cursive;
+    font-size: 35px;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
+
+    color: #ccd9bf;
+    text-shadow: -2px -2px 0 #4D4644, 2px -2px 0 #4D4644, -2px 2px 0 #4D4644, 2px 2px 0 #4D4644, 4px 4px 0 #d1dbc8, 5px 5px 0 #d1dbc8, 6px 6px 0 #d1dbc8;
+    letter-spacing: 0.1em
+}
+
+
+.info-subtitle {
+    font-size: 20px;
+    text-align: justify;
+    
+
+}
+
+.intro__inner {
+    background:
+        url("/static/images/webinar.jpg") center no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover;
+
+}
+
+.intro__inner-sign {
+    width: 500px;
+    text-align: center;
+    padding: 50px;
+    color: #4f5947;
+
+    font-size: 25px;
+    font-family: 'Caveat', cursive;
+
+}
+
+/* Button */
+.wrapper {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.btn {
+    display: block;
+    max-width: 220px;
+    margin: 10px auto;
+    padding: 10px;
+
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #fff;
+    font-size: 19px;
+    font-weight: 700;
+    background-color: #44943d;
+    cursor: pointer;
+
+
+    border: none;
+    border-radius: 25px;
+}
+
+.btn:hover {
+    background-color: #49524b;
+    color: #fff;
+
+
+    border: none;
+    border-radius: 25px;
+}
+
+
+/* Popup */
+
+
+.popup {
+    display: block;
+    margin: auto;
+    padding: 20px 15px;
+    width: 60%;
+    background-color: #fcd674;
+
+    position: relative;
+    transition: .5s all;
+
+    top: -999px;
+}
+
+.popup input {
+    display: block;
+    width: 100%;
+    border: none;
+    height: 25px;
+    line-height: 25px;
+    margin: 20px 0;
+}
+
+
+.submit {
+    cursor: pointer;
+}
+
+.comment {
+    font-size: 20px;
+    text-align: justify;
+}
+
+.close {
+    font-size: 70%;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    cursor: pointer;
+
+}
+
+#modal {
+    display: none;
+}
+
+#modal:checked~.popup {
+    top: 0px;
+
+}
+
+/* Company */
+.comp {
+    margin-top: 80px;
+}
+
+#comp-intro-title {
+    text-align: left;
+    font-weight: 700;
+    font-family: 'Caveat', cursive;
+
+    padding-left: 50px;
+}
+
+.comp-intro-subtitle {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    text-align: justify;
+
+    padding: 0px 50px;
+}
+
+/* Contacts */
+.contact {
+    margin: 60px 0;
+}
+
+#contact-intro-title {
+    text-align: left;
+    font-weight: 700;
+    font-family: 'Caveat', cursive;
+
+    padding-left: 50px;
+}
+
+.contact-intro-subtitle {
+    line-height: 50px;
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    text-align: justify;
+
+    padding: 0px 50px;
+}
+
+
+
+/* Footer */
+footer {
+    margin-top: 50px;
+    flex: 0 0 auto;
+    font-size: 15px;
+    text-align: center;
+
+
+}

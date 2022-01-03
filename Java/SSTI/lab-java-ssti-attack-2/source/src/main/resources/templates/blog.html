@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="/blog" method="post">
+    <input name="name" placeholder="Enter your name">
+    <input name="message" placeholder="Enter some message">
+    <button type="submit">Send message</button>
+</form>
+<div th:each="blog : ${blogs}">
+    <div th:text="__${blog.name}__"></div>
+    <div th:text="__${blog.message}__"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<html lang="en" layout:decorate="~{layout.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<body>
+
+<!-- /* @thymesVar id="template_path" type="java.lang.String" */ -->
+
+<section layout:fragment="content">
+
+    <section class="articles">
+        <div class="column is-8 is-offset-2">
+            <section class="hero is-primary is-bold is-small promo-block">
+                <div class="hero-body">
+                    <div class="container">
+                        <h1 class="title">
+                            <i class="fa fa-bell-o"></i>
+                            My awesome guest book!
+                        </h1>
+                    </div>
+                </div>
+            </section>
+            <section class="hero is-info is-bold is-small promo-block"   th:if="${isInsideAdmin == true}"   sec:authorize="hasRole(T(study.appsec.guestbook.model.UserRole).ROLE_ADMIN)">
+                <div class="hero-body">
+                    <div class="container">
+                        <h1 class="title">
+                            <i class="fa fa-bell-o"></i>
+                            WELCOME ADMIN!!!!! Your flag is <b>Dont_regex_XSS</b>
+                        </h1>
+                    </div>
+                </div>
+            </section>
+            <div class="card article">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-center">
+                            <img th:src="${template_path} + '/logo.jpg'" class="author-image" alt="Placeholder image">
+                        </div>
+                        <div class="media-content has-text-centered">
+                            <p class="title article-title">Introducing my new interesting BLOG</p>
+                            <p class="subtitle is-6 article-subtitle">
+                                <span th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="content article-body">
+                        <p> I'm just the beginner in programming, so I'll be glad if you leave me a comment that i can
+                            read (but only last 5).</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card article">
+                <div class="card-content" th:each="comment: ${comments}">
+                    <div class="content article-body">
+                        <p><b><span th:remove="tag" th:utext="${comment.name}"></span></b></p>
+                        <p><span th:remove="tag" th:utext="${comment.message}"></span></p>
+                    </div>
+                </div>
+            </div>
+            <form th:action="@{/comment}" method="POST">
+                <div class="card article">
+                    <div class="card-content">
+                        <div class="content article-body">
+                            <div class="field">
+                                <label class="label">Name</label>
+                                <div class="control">
+                                    <input type="text" name="name" class="input" placeholder="Your name">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Message</label>
+                                <div class="control">
+                                    <textarea name="message" class="textarea" placeholder="Your comment"></textarea>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button is-link">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+</section>
+
+</body>
+</html>

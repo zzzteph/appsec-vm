@@ -1,0 +1,79 @@
+#!/bin/bash
+
+process1=$(ps aux| grep -v grep | grep curl | wc -l);
+process2=$(ps aux| grep -v grep | grep sqlmap | wc -l);
+
+process=$((process1+process2))
+
+
+if [ "$process" -ne "0" ]; then
+
+	echo "Another bot is running"
+	echo "Please wait 20 seconds"
+
+	for i in 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 9
+	do 
+		sleep 1
+		echo "$i seconds"
+	done
+	
+	echo "Kill everything"
+	kill $(ps aux| grep -v grep | grep sqlmap | awk '{print $2}')  > /dev/null 2>&1
+	kill $(ps aux| grep -v grep | grep curl | awk '{print $2}')  > /dev/null 2>&1
+
+fi
+
+
+
+echo "Begin hacking...";
+echo "Test functionality...";
+systemctl restart sql
+sleep 20;
+rand=$(od -A n -t d -N 2 /dev/urandom |tr -d ' ')
+tests=$(((rand % 20)+10))
+echo "Test cases : $tests";
+
+mysql -e "truncate admin.users";
+
+valid_logins=0;
+for i in $(seq 1 $tests)
+do
+
+	echo "Test case $i"
+	user=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+	password=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+	mysql -e "insert into admin.users(\`login\`,\`passwd\`) values ('$user','$password');";
+	login=$(curl --silent --data "login=$user&password=$password" "http://127.0.0.1/" -i | grep "SQL_ATTACKER" |wc -l);
+	valid_logins=$((valid_logins+login))
+
+done
+ 
+
+
+if [ "$valid_logins" -ne "$tests" ]; then
+   mysql -e "truncate admin.users"
+   mysql -e "insert into admin.users(\`login\`,\`passwd\`) values ('admin','admin');";
+   echo "Seems you broke the system.";
+   echo "Can't test valid functions";
+   exit;
+fi 
+
+echo "All works fine... begin testing"
+
+vuln=$(sqlmap --url http://127.0.0.1/ --data "login=1&password=1" --level 3 --risk 3 --batch --random-agent --flush-session --dbms=mysql --technique=BEUSQ| grep "sqlmap identified the following injection"|wc -l)
+if [ "$vuln" -eq "0" ]; then
+   echo "You are awesome!";
+   echo "Your flag is: JAVA_SQLINJECTION_STUDENT";
+   exit;
+fi
+
+
+mysql -e "truncate admin.users"
+mysql -e "insert into admin.users(\`login\`,\`passwd\`) values ('admin','admin');";
+
+
+echo "WEB APP was HACKED....";
+
+
+
+

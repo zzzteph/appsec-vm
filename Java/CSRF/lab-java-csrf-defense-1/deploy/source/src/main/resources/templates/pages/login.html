@@ -1,0 +1,33 @@
+<html lang="en" layout:decorate="~{layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<section layout:fragment="content">
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label for="input-username">Username:</label>
+                    <input type="text" name="login" class="form-control" id="input-username">
+                    <small class="tex-muted text-danger"
+                           th:if="${param.error != null && param.error.contains('register') }">
+                        Must be latin letters and spaces, length is min 4, max is 10.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="input-password">Password:</label>
+                    <input type="password" name="password" class="form-control" id="input-password">
+                </div>
+                <div class="text-right">
+                    <button type="submit" name="submit" class="btn btn-primary">Sign in / Sign up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

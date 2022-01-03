@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mvn -f /home/dev/source/pom.xml clean
+mvn -f /home/dev/source/pom.xml compile
+mvn -f /home/dev/source/pom.xml package
+chmod 777 -R /home/dev/source/
+sudo mysql -e "drop database base_blogger";
+sudo mysql -e "create database base_blogger";
+sudo mysql -e "GRANT ALL PRIVILEGES ON base_blogger . * TO 'user_blogger'@'localhost'";
+sudo mysql -e "FLUSH PRIVILEGES";
+
+systemctl restart csrf
+sleep 30;

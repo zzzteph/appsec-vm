@@ -1,0 +1,53 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>YAOFR</title>
+    <link rel="stylesheet" href="/css/bulma.min.css">
+</head>
+
+<body>
+
+
+
+
+<section class="articles">
+    <div class="container">
+
+        <div class="card">
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-content">
+                        <h1 th:text="${path}"/>
+                    </div>
+                </div>
+
+                <div class="content">
+                  <div th:if="${flag}">
+                    <h1>Flag:</h1><h3 th:text="${flag}"></h3>
+
+                  </div>
+                    <p th:text="${file}"/>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</section>
+
+
+<br />
+
+
+
+
+
+</body>
+
+</html>

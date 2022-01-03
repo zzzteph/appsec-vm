@@ -1,0 +1,21 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- /* @thymesVar id="comment" type="ai.hacktory.blogger.model.Comment" */ -->
+
+<div th:fragment="comment(comment)" class="box">
+    <div class="card">
+        <div class="card-header">
+            Commented by <b><span th:text="${comment.user.username}"></span></b>
+            at <b><span th:text="${#dates.format(comment.dateCreated, 'dd-MM-yyyy HH:mm')}"></span></b>
+        </div>
+        <div class="card-body">
+            <!--/* XSS VULNERABLE CODE */-->
+            <span th:remove="tag" th:utext="${comment.text}"></span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+#!/bin/bash
+process1=$(ps aux| grep -v grep | grep curl | wc -l);
+process2=$(ps aux| grep -v grep | grep bot-1.0.jar | wc -l);
+process=$((process1+process2))
+if [ "$process" -ne "0" ]; then
+
+        echo "Another bot is running"
+        echo "Please wait 20 seconds"
+
+        for i in 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0
+        do
+                sleep 1
+                echo "$i seconds"
+        done
+
+        echo "Kill everything"
+        kill $(ps aux| grep -v grep | grep curl | awk '{print $2}')  > /dev/null 2>&1
+	kill $(ps aux| grep -v grep | grep bot-1.0.jar | awk '{print $2}')  > /dev/null 2>&1
+fi
+echo "Begin hacking...";
+sleep 1;
+sudo mysql -e "drop database base_blogger";
+sudo mysql -e "create database base_blogger";
+sudo mysql -e "GRANT ALL PRIVILEGES ON base_blogger . * TO 'user_blogger'@'localhost'";
+sudo mysql -e "FLUSH PRIVILEGES";
+
+systemctl restart csrf
+sleep 30;
+echo "Test functionality...";
+echo "20%";
+sleep 1;
+echo "40%";
+sleep 1;
+echo "60%";
+sleep 1;
+page1=$(curl --silent "http://127.0.0.1/"| grep "btn-outline-primary"| wc -l)
+echo "80%";
+sleep 1;
+sleep 1;
+echo "100%";
+if [ "$page1" -eq 0 ]; then
+
+echo "Cant test valid functionality...seems broken";
+exit;
+fi
+
+
+echo "All works fine... begin hacking"
+sleep 1;
+vuln=$(java -jar /root/bot/target/bot-1.0.jar | grep "testfine"|wc -l)
+if [ "$vuln" -eq 0 ] ; then
+   	echo "Web app was HACKED";
+   	exit;
+   fi
+echo "You are awesome!";
+echo "Your flag is: CSRF_WILL_NOT_PASS";
+

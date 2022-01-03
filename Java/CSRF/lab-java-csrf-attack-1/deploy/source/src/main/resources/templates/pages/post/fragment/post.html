@@ -1,0 +1,104 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- /* @thymesVar id="post" type="ai.hacktory.blogger.model.Post" */ -->
+<!-- /* @thymesVar id="is_crud_allowed" type="java.lang.Boolean" */ -->
+<!-- /* @thymesVar id="is_full_view" type="java.lang.Boolean" */ -->
+<!-- /* @thymesVar id="user_opinion" type="java.lang.Integer" */ -->
+
+<div th:fragment="post(post, is_crud_allowed, is_full_view, user_opinion)" class="box">
+    <div class="details mt-4">
+        <h5 th:text="${post.title}"></h5>
+        <p class="small-text">
+            Posted by <b><span th:text="${post.user.username}"></span></b>
+            at <b><span th:text="${#dates.format(post.dateCreated, 'dd-MM-yyyy HH:mm')}"></span></b>
+            <th:block th:if="${is_full_view}">
+                &nbsp;&nbsp;&nbsp;
+                last update at
+                <b><span th:text="${#dates.format(post.dateUpdated, 'dd-MM-yyyy HH:mm')}"></span></b>
+            </th:block>
+            <th:block th:if="${!is_full_view}">
+                &nbsp;&nbsp;&nbsp;
+                <span th:text="${post.rating}"></span>
+                <i data-feather="thumbs-up" style="height: 14px;"></i>
+            </th:block>
+        </p>
+        <p class="description" th:text="${post.text}" th:if="${is_full_view}"></p>
+        <p class="description" th:text="${#strings.substring(post.text, 0, 300) + '...'}" th:if="${!is_full_view}"></p>
+        <th:block th:if="${is_full_view}">
+            <button type="button" class="btn btn-sm btn-outline-secondary disabled" style="cursor: not-allowed;"
+                    disabled sec:authorize="!isAuthenticated()">
+                <i data-feather="thumbs-down" style="height: 14px;"></i>
+            </button>
+            <form th:action="${'/dislike/' + post.id}" method="post" class="d-inline"
+                  sec:authorize="isAuthenticated()">
+                <button type="submit" name="value" value="-1" class="btn btn-sm btn-outline-secondary"
+                        th:classappend="${user_opinion} == -1 ? 'active' : ''">
+                    <i data-feather="thumbs-down" style="height: 14px;"></i>
+                </button>
+            </form>
+            <span th:text="${post.rating}" style="line-height: 20px; font-size: 20px; vertical-align: sub;"></span>
+            <button type="button" class="btn btn-sm btn-outline-secondary disabled" style="cursor: not-allowed;"
+                    disabled sec:authorize="!isAuthenticated()">
+                <i data-feather="thumbs-up" style="height: 14px;"></i>
+            </button>
+            <form th:action="${'/like/' + post.id}" method="post" class="d-inline"
+                  sec:authorize="isAuthenticated()">
+                <button type="submit" name="value" value="1" class="btn btn-sm btn-outline-secondary"
+                        th:classappend="${user_opinion} == 1 ? 'active' : ''">
+                    <i data-feather="thumbs-up" style="height: 14px;"></i>
+                </button>
+            </form>
+            <hr>
+            <div class="row">
+                <div class="col-12 mb-2" th:each="comment: ${post.comments}">
+                    <template th:replace="pages/post/fragment/comment :: comment(comment=${comment})"></template>
+                </div>
+            </div>
+            <div id="form-comment" class="d-none">
+                <hr>
+                <h3>New comment form</h3>
+                <form th:action="${'/post/' + post.id + '/comment/create'}" method="post">
+                    <div class="form-group">
+                        <textarea type="text" name="text" class="form-control" rows="5"></textarea>
+                        <small class="tex-muted text-danger" th:if="${param.error}">
+                            Must be at least 100 symbols.
+                        </small>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-outline-primary" type="submit">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <button class="btn btn-outline-secondary btn-sm mt-2"
+                    onclick="$('#form-comment').removeClass('d-none'); $(this).remove();"
+                    sec:authorize="isAuthenticated()">
+                Leave a comment
+            </button>
+        </th:block>
+        <div class="mb-2" th:if="${is_crud_allowed == true}">
+            <th:block th:if="${!is_full_view}">
+                <a th:href="${'/post/' + post.id}" class="btn btn-outline-secondary btn-sm" title="View post">
+                    <i data-feather="eye"></i>
+                </a>
+            </th:block>
+            <a th:href="${'/post/' + post.id + '/edit'}" class="btn btn-outline-secondary btn-sm" title="Edit post">
+                <i data-feather="edit"></i>
+            </a>
+            <button class="btn btn-outline-secondary btn-sm" title="Delete post"
+                    th:data-href="${'/post/' + post.id + '/delete'}"
+                    onclick="if (confirm('Are you sure?')) { window.location = $(this).data('href'); }">
+                <i data-feather="trash-2"></i>
+            </button>
+        </div>
+    </div>
+    <a th:href="${'/post/' + post.id}" class="button" th:if="${!is_full_view && !is_crud_allowed}">
+        Show more
+    </a>
+</div>
+
+</body>
+</html>

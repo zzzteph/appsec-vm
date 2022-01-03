@@ -1,0 +1,61 @@
+#!/bin/bash
+
+systemctl restart rce
+sleep 10;
+process1=$(ps aux| grep -v grep | grep curl | wc -l);
+process2=$(ps aux| grep -v grep | grep commix | wc -l);
+
+process=$((process1+process2))
+
+if [ "$process" -ne "0" ]; then
+
+        echo "Another bot is running"
+        echo "Please wait 5 seconds"
+        sleep 1
+        echo "4 seconds"
+        sleep 1
+        echo "3 seconds"
+        sleep 1
+        echo "2 seconds"
+        sleep 1
+        echo "1 seconds"
+        sleep 1
+
+
+        echo "Kill everything"
+
+        kill $(ps aux| grep -v grep | grep commix | awk '{print $2}')  > /dev/null 2>&1
+        kill $(ps aux| grep -v grep | grep curl | awk '{print $2}')  > /dev/null 2>&1
+
+fi
+
+
+echo "Hacking...";
+good=$(curl --silent --data "command=127.0.0.1" "http://127.0.0.1/admin" | grep "127.0.0.1 ping statistics"|wc -l)
+
+
+if [ "$good" -ne "1" ]; then
+   echo "Seems you broke the system.";
+   echo "Can't test valid functions";
+   exit;
+fi
+
+echo "All functions work..."
+
+
+echo "Hacking stage 1";
+vuln1=$(timeout 20 python /root/commix/commix.py --url http://127.0.0.1/admin --batch --data "command=127.0.0.1" --flush-session --random-agent --output-dir=/root/ --os-cmd=whoami  | grep "seems injectable"| wc -l);
+echo "Hacking stage 2";
+vuln2=$(timeout 20 python /root/commix/commix.py --url http://127.0.0.1/admin --batch --data "command=1" --flush-session --random-agent --output-dir=/root/ --os-cmd=whoami  | grep "seems injectable"| wc -l);
+
+
+cmd=$((vuln1+vuln2));
+
+if [ "$cmd" -eq "0" ]; then
+   echo "You are awesome!";
+   echo "Your flag is: JAVA_RCE_DEFENDER";
+   exit;
+fi
+
+
+echo "WEB APP was HACKED....";

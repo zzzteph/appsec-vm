@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mvn -f /home/dev/source/pom.xml clean
+mvn -f /home/dev/source/pom.xml compile
+mvn -f /home/dev/source/pom.xml package
+systemctl restart rce
