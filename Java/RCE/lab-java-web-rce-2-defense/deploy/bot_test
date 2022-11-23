@@ -1,0 +1,66 @@
+#!/bin/bash
+
+
+process=$(ps aux| grep -v grep | grep curl | wc -l);
+
+if [ "$process" -ne "0" ]; then
+
+	echo "Another bot is running"
+	echo "Please wait 5 seconds"
+	sleep 1
+	echo "4 seconds"
+	sleep 1
+	echo "3 seconds"
+	sleep 1
+	echo "2 seconds"
+	sleep 1
+	echo "1 seconds"
+	sleep 1
+	echo "Kill everything"
+	kill $(ps aux| grep -v grep | grep curl | awk '{print $2}')  > /dev/null 2>&1
+
+fi
+
+
+echo "Hacking...";
+good1=$(curl --silent --data "filename=includes" "http://127.0.0.1/" | grep "includes"|wc -l)
+good2=$(curl --silent --data "filename=README.txt" "http://127.0.0.1/" | grep "README.txt"|wc -l)
+good3=$(curl --silent --data "filename=wp-admin" "http://127.0.0.1/" | grep "wp-admin"|wc -l)
+good4=$(curl --silent --data "filename=credits.php" "http://127.0.0.1/" | grep "credits.php"|wc -l)
+good5=$(curl --silent --data "filename=edit-tags.php" "http://127.0.0.1/" | grep "edit-tags.php"|wc -l)
+
+
+
+
+good=$((good1+good2+good3+good4+good5))
+
+
+if [ "$good" -ne "5" ]; then
+   echo "Seems you broke the system.";
+   echo "Can't test valid functions";
+   exit;
+fi
+
+echo "All functions work..."
+echo "Hacking...1"
+vuln1=$(curl --silent --data "filename=*.php -execdir uname ;" "http://127.0.0.1/" | grep "Linux"|wc -l)
+echo "Hacking...2"
+vuln2=$(curl --silent --data "filename=sth -or -exec uname ;" "http://127.0.0.1/" | grep "Linux"|wc -l)
+echo "Hacking...3"
+vuln3=$(curl --silent --data "filename=*.php -execdir ls ;" "http://127.0.0.1/" | grep "license.txt"|wc -l)
+echo "Hacking...4"
+vuln4=$(curl --silent --data "filename=123123 -or -exec ls ;" "http://127.0.0.1/" | grep "README.TXT"|wc -l)
+
+
+cmd=$((vuln1+vuln2+vuln3+vuln4));
+
+if [ "$cmd" -eq "0" ]; then
+   echo "You are awesome!";
+   echo "Your flag is: JAVA_RCE_ARGUMENT_SOLVER";
+   exit;
+fi
+
+
+echo "WEB APP was HACKED....";
+
+

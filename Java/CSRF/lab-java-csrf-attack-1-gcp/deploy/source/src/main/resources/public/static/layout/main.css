@@ -1,0 +1,8 @@
+#header a.brand {
+    color: var(--gray-dark);
+}
+
+#header a.active:not(.btn) {
+    color: var(--cyan) !important;
+    text-decoration: underline;
+}

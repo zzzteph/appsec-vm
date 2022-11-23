@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hack quiz</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="/static/css/fonts.css" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/static/css/normalize.css">
+  <link rel="stylesheet" href="/static/css/skeleton.css">
+
+  <script src="/static/js/jquery.min.js"></script>
+
+  <link rel="icon" type="image/png" href="/static/images/favicon.png">
+
+</head>
+
+
+<body>
+
+  <div class="section hero">
+    <div class="container">
+      <div class="row">
+        <div>
+          <h3 class="section-heading">Check how good you are, hacker!</h3>
+          
+          <p class="section-description">Try to pass the test! Could not get enough points?
+ <br> Next time you can try in 24 hours </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section quiz">
+    <div class="container">
+      <form id="quizForm" >
+      <div class="row">
+          <div class="six columns">
+            <label for="userEmail">Your email</label>
+            <input class="u-full-width"  placeholder="test@mailbox.com" name="userEmail" id="userEmail" type="email">
+          </div>
+        </div> 
+
+
+         {% for q in qs_list %}
+        <div class="row">
+          <div class="six columns">
+            <label for="answer{{q['id']}}">{{q['text']}}</label>
+            <select form="quizForm" class="u-full-width" name="answer{{q['id']}}" id="answer{{q['id']}}">
+              {% for i in range(q['all_answers']|length) %}
+              <option>{{q['all_answers'][i]}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        {% endfor %}
+  
+        <input class="button-primary" value="Submit" type="submit">
+      </form>
+
+    </div>
+  </div>
+
+  <div class="section hero">
+    <div class="container">
+      <div id="result" class="row">
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
+<script>
+$( "#quizForm" ).submit(function( event ) {
+  
+
+  $.post( "answers", $( "#quizForm" ).serialize(), function(result){
+    // console.log(result);
+    if(result.error==1){
+      $("#result").html('<h4 class="section-heading">You have already participated today. Come back tomorrow</h4> ');
+      
+    } else if(result.result) {
+      $("#result").html('<h4 class="section-heading">Your result: ' + result.result + ' out of 5 </h4> ');
+
+    }
+   
+    }, "json");
+
+  event.preventDefault();
+});
+
+</script>
+</html>

@@ -1,0 +1,22 @@
+<html lang="en" layout:decorate="~{layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<section layout:fragment="content">
+
+    <div class="row">
+        <div class="col-12">
+            <template th:replace="pages/post/fragment/post :: post(
+                                  post=${post},
+                                  is_crud_allowed=${is_crud_allowed},
+                                  user_opinion=${user_opinion},
+                                  is_full_view=true)"
+            ></template>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

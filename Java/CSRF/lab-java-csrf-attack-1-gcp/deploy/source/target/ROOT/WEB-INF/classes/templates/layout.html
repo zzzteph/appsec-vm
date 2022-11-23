@@ -1,0 +1,52 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="https://raw.githubusercontent.com/ultraq/thymeleaf-layout-dialect/master/source/nz/net/ultraq/thymeleaf/LayoutDialect.xml">
+
+<!-- /* @thymesVar id="template_path" type="java.lang.String" */ -->
+<!-- /* @thymesVar id="app_alerts" type="java.util.List<ai.hacktory.blogger.model.Alert>" */ -->
+
+<head>
+    <title>Blog</title>
+
+    <!-- Libs -->
+    <script type="application/javascript" th:src="${template_path} + '/jquery/jquery-3.5.0.min.js'"></script>
+    <script type="application/javascript" th:src="${template_path} + '/popper/popper-2.3.2.min.js'"></script>
+    <script type="application/javascript" th:src="${template_path} + '/feather/feather.min.js'"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="${template_path} + '/bootstrap/css/bootstrap-reboot.min.css'">
+    <link rel="stylesheet" th:href="${template_path} + '/bootstrap/css/bootstrap-grid.min.css'">
+    <link rel="stylesheet" th:href="${template_path} + '/bootstrap/css/bootstrap.min.css'">
+    <script type="application/javascript" th:src="${template_path} + '/bootstrap/js/bootstrap.bundle.min.js'"></script>
+    <script type="application/javascript" th:src="${template_path} + '/bootstrap/js/bootstrap.min.js'"></script>
+
+    <!-- Application -->
+    <link rel="stylesheet" th:href="${template_path} + '/main.css'">
+</head>
+<body>
+
+<template th:replace="fragments/header :: header"></template>
+
+<div id="page">
+    <div class="container">
+
+        <th:block th:if="${app_alerts}">
+            <div class="alert"
+                 th:each="alert: ${app_alerts}"
+                 th:classappend="${'alert-' + alert.style}">
+                <span th:text="${alert.text}" th:remove="tag"></span>
+            </div>
+        </th:block>
+
+        <template layout:fragment="content">
+            <p>Page content goes here</p>
+        </template>
+
+    </div>
+</div>
+
+<template th:replace="fragments/footer :: footer"></template>
+
+<script type="application/javascript" th:src="${template_path} + '/main.js'"></script>
+</body>
+</html>

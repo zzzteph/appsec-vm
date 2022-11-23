@@ -1,0 +1,8 @@
+#!/bin/bash
+
+mvn -f /home/dev/source/pom.xml clean
+mvn -f /home/dev/source/pom.xml compile
+mvn -f /home/dev/source/pom.xml package
+rm -rf /opt/jetty/webapps/*
+cp /home/dev/source/target/ROOT.war /opt/jetty/webapps/
+

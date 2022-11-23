@@ -5,5 +5,10 @@ mvn -f /home/dev/source/pom.xml compile
 mvn -f /home/dev/source/pom.xml package
 chmod 777 -R /home/dev/source/
 systemctl restart path
-echo "Waiting..."
+echo "Waiting...30 sec"
 sleep 10;
+echo "20 sec"
+sleep 10;
+echo "10 sec"
+sleep 10;
+echo "Done";

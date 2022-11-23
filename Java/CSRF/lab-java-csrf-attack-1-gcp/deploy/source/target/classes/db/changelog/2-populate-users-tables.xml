@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="d.pechkovskiy" id="1586775785">
+        <sql>
+            INSERT INTO user (username, password) VALUES
+            ('admin', '$2y$12$w.qh3JbO1XwEFsXEiXn4k.LcpdTXhAsazTheSjWYcrDJrkpcjXYgC'),
+            ('bob',   '$2y$12$w.qh3JbO1XwEFsXEiXn4k.LcpdTXhAsazTheSjWYcrDJrkpcjXYgC'),
+			('genry',   '$2y$12$w.qh3JbO1XwEFsXEiXn4k.LcpdTXhAsazTheSjWYcrDJrkpcjXYgC'),
+			('meghan',   '$2y$12$w.qh3JbO1XwEFsXEiXn4k.LcpdTXhAsazTheSjWYcrDJrkpcjXYgC'),
+			('carry',   '$2y$12$w.qh3JbO1XwEFsXEiXn4k.LcpdTXhAsazTheSjWYcrDJrkpcjXYgC'),
+			('charles',   '$2y$12$w.qh3JbO1XwEFsXEiXn4k.LcpdTXhAsazTheSjWYcrDJrkpcjXYgC'),
+			('andy',   '$2y$12$w.qh3JbO1XwEFsXEiXn4k.LcpdTXhAsazTheSjWYcrDJrkpcjXYgC'),
+            ('mary',  '$2y$12$w.qh3JbO1XwEFsXEiXn4k.LcpdTXhAsazTheSjWYcrDJrkpcjXYgC');
+
+            INSERT INTO user_role (name) VALUES
+            ('ADMIN'),
+            ('USER');
+
+            INSERT INTO user_user_role (user_id, role_id) VALUES
+            (1, 2),
+            (2, 2),
+			(3, 2),
+			(4, 2),
+			(5, 2),
+			(6, 2),
+			(7, 2),
+			(8, 2);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

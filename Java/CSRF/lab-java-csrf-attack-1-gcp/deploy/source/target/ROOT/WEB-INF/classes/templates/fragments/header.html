@@ -1,0 +1,39 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<!-- /* @thymesVar id="current_path" type="java" */ -->
+
+<div th:fragment="header" id="header" class="container mt-4">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <h5 class="my-0 mr-md-auto font-weight-normal">
+            <a href="/" class="brand">Blog</a>
+        </h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" href="/post/all"
+               th:classappend="${current_path} == '/post/all' ? 'active' : ''">
+                All posts
+            </a>
+            <a class="p-2 text-dark" href="/post/personal"
+               th:classappend="${current_path} == '/post/personal' ? 'active' : ''"
+               sec:authorize="isAuthenticated()">
+                <span th:text="${#strings.capitalize(#request.userPrincipal.getName()) + '''s posts'}"
+                      th:remove="tag"
+                ></span>
+            </a>
+        </nav>
+        <a class="btn btn-outline-primary" href="/logout"
+           sec:authorize="isAuthenticated()">
+            Logout
+        </a>
+        <a class="btn btn-outline-primary" href="/login"
+           th:classappend="${current_path} == '/login' ? 'active' : ''"
+           sec:authorize="!isAuthenticated()">
+            Login
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

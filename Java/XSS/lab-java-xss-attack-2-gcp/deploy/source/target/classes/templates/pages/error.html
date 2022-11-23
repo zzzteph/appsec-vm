@@ -1,0 +1,26 @@
+<html lang="en" layout:decorate="~{layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<section layout:fragment="content">
+
+    <h3>Something went wrong...</h3>
+    <div th:switch="${is_app_error}">
+        <div th:case="${true}">
+            <span th:text="${error_message}"></span>
+        </div>
+        <div th:case="${false}">
+            <div th:if="${error_code}">
+                <p>Error code: <span th:text="${error_code}"></span></p>
+            </div>
+            <div th:if="${error_message_full}">
+                <p>Error: <span th:text="${error_message_full}"></span></p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

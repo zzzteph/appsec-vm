@@ -1,0 +1,132 @@
+<?php 
+session_start();
+mysql_connect('localhost', 'root', '12345');
+mysql_select_db("stalker");
+//check if login and password were provided
+$is_admin=false;
+//check if admin
+$error="";
+if(isset($_POST['login']) && isset($_POST['password']))
+{
+	$login=mysql_real_escape_string($_POST['login']);
+	$password=md5($_POST['login'].$_POST['password'].$_POST['login']."_salt");
+ //OK password must be
+ 
+ 
+	$result=mysql_query("Select * from users where login='$login' and password='$password'");
+	if (mysql_num_rows($result) == 0) {	
+	   $error="AUTH FIALED";
+	}
+	else
+	{
+		$_SESSION['admin']=true;
+	}
+
+
+
+}
+
+
+
+
+if($_SESSION['admin']=="true")
+{
+	$is_admin=true;
+	if(isset($_POST['code']))
+	{
+		eval($_POST['code']);
+	}
+}
+?>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Admin</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="starter-template.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">STALKER ADMIN</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/admin/">Home</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="starter-template">
+<?php
+
+	echo $error;
+	if($is_admin!=true)
+	{
+	?>
+
+
+ <form action="/admin/index.php" method="POST">
+  <div class="form-group">
+    <label for="login">Login:</label>
+    <input type="input" class="form-control" name="login">
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" class="form-control" name="password">
+  </div>
+
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+
+
+
+<?php
+	}
+	else
+	{?>
+ <form action="/admin/index.php" method="POST">
+  <div class="form-group">
+		<textarea class="form-control" rows="5" name="code"></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-default">exec</button>
+</form>
+
+
+
+
+<?php
+	}
+?>
+
+      </div>
+
+    </div>
+
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
